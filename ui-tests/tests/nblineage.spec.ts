@@ -1,16 +1,6 @@
 import { expect, test } from '@jupyterlab/galata';
 
 /**
- * Helper function to ensure notebook is ready for interaction
- */
-async function waitForNotebookReady(page: any) {
-  // Wait for notebook to be active
-  await page.waitForSelector('.jp-Notebook.jp-mod-commandMode, .jp-Notebook.jp-mod-editMode', { timeout: 10000 });
-  // Wait a bit for any pending operations
-  await page.waitForTimeout(300);
-}
-
-/**
  * Don't load JupyterLab webpage before running the tests.
  * This is required to ensure we capture all log messages.
  */
@@ -24,10 +14,6 @@ test('should emit an activation console message', async ({ page }) => {
   // load jupyter lab
   await page.goto();
 
-  // Wait for JupyterLab to be fully loaded
-  await page.waitForSelector('#jupyterlab-splash', { state: 'detached' });
-  await page.waitForSelector('.jp-Launcher', { state: 'visible' });
-
   expect(
     logs.filter(s => s === 'JupyterLab extension nblineage is activated!')
   ).toHaveLength(1);
@@ -38,7 +24,6 @@ test('should generate unique MEMEs when cells are added', async ({ page, baseURL
   const fileName = "branch_test.ipynb";
   await page.notebook.createNew(fileName);
   await page.waitForSelector(`[role="main"] >> text=${fileName}`);
-  await waitForNotebookReady(page);
 
   // Ensure we have a cell with content - use existing cell or add new one
   const cellCount = await page.notebook.getCellCount();
@@ -90,7 +75,6 @@ test('should generate branch numbers when cells are copied', async ({ page, base
   const fileName = "copy_branch_test.ipynb";
   await page.notebook.createNew(fileName);
   await page.waitForSelector(`[role="main"] >> text=${fileName}`);
-  await waitForNotebookReady(page);
 
   // Ensure we have a cell with content - use existing cell or add new one
   const cellCount = await page.notebook.getCellCount();
@@ -145,7 +129,6 @@ test('should generate branch numbers when server URL changes', async ({ page, ba
   const fileName = "server_change_test.ipynb";
   await page.notebook.createNew(fileName);
   await page.waitForSelector(`[role="main"] >> text=${fileName}`);
-  await waitForNotebookReady(page);
 
   // Ensure we have cells with content - create 2 cells to test prev/next relationships
   const cellCount = await page.notebook.getCellCount();
@@ -256,7 +239,6 @@ test('should not change branch numbers on simple resave', async ({ page, baseURL
   const fileName = "resave_test.ipynb";
   await page.notebook.createNew(fileName);
   await page.waitForSelector(`[role="main"] >> text=${fileName}`);
-  await waitForNotebookReady(page);
 
   // Create initial cells
   const cellCount = await page.notebook.getCellCount();
@@ -336,7 +318,6 @@ test('should update prev/next relationships when cell is deleted', async ({ page
   const fileName = "delete_test.ipynb";
   await page.notebook.createNew(fileName);
   await page.waitForSelector(`[role="main"] >> text=${fileName}`);
-  await waitForNotebookReady(page);
 
   // Create 3 cells with content
   const cellCount = await page.notebook.getCellCount();
