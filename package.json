@@ -68,7 +68,6 @@
     "@jupyterlab/testutils": "^4.0.0",
     "@types/jest": "^29.2.0",
     "@types/json-schema": "^7.0.11",
-    "@types/node": "20.4.9",
     "@types/react": "^18.0.26",
     "@typescript-eslint/eslint-plugin": "^6.1.0",
     "@typescript-eslint/parser": "^6.1.0",
@@ -88,18 +87,14 @@
     "stylelint-config-standard": "^34.0.0",
     "stylelint-prettier": "^4.0.0",
     "ts-jest": "^26.0.0",
-    "typescript": "5.0.4",
-    "yjs": "13.6.7"
+    "typescript": "~5.7.2",
+    "yjs": "^13.5.40"
   },
   "sideEffects": [
     "style/*.css",
     "style/index.js"
   ],
   "styleModule": "style/index.js",
-  "resolutions": {
-    "yjs": "13.6.7",
-    "lib0": "0.2.79"
-  },
   "publishConfig": {
     "access": "public"
   },
